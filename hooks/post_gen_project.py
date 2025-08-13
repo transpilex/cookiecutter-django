@@ -20,19 +20,6 @@ SUCCESS = "\x1b[1;32m [SUCCESS]: "
 
 DEBUG_VALUE = "debug"
 
-
-def remove_open_source_files():
-    file_names = ["CONTRIBUTORS.txt", "LICENSE"]
-    for file_name in file_names:
-        Path(file_name).unlink()
-
-
-def remove_gplv3_files():
-    file_names = ["COPYING"]
-    for file_name in file_names:
-        Path(file_name).unlink()
-
-
 def remove_custom_user_manager_files():
     users_path = Path("{{cookiecutter.project_slug}}", "users")
     (users_path / "managers.py").unlink()
@@ -95,23 +82,6 @@ def remove_gulp_files():
         Path(file_name).unlink()
 
 
-def remove_webpack_files():
-    shutil.rmtree("webpack")
-    remove_vendors_js()
-
-
-def remove_vendors_js():
-    vendors_js_path = Path("{{ cookiecutter.project_slug }}", "static", "js", "vendors.js")
-    if vendors_js_path.exists():
-        vendors_js_path.unlink()
-
-
-def remove_project_css():
-    project_css_path = Path("{{ cookiecutter.project_slug }}", "static", "css", "project.css")
-    if project_css_path.exists():
-        project_css_path.unlink()
-
-
 def remove_packagejson_file():
     file_names = ["package.json"]
     for file_name in file_names:
@@ -158,39 +128,6 @@ def handle_js_runner(choice, use_docker, use_async):
                 "build": "gulp build",
             },
         )
-        remove_webpack_files()
-    elif choice == "Webpack":
-        scripts = {
-            "dev": "webpack serve --config webpack/dev.config.js",
-            "build": "webpack --config webpack/prod.config.js",
-        }
-        remove_dev_deps = [
-            "browser-sync",
-            "cssnano",
-            "gulp",
-            "gulp-concat",
-            "gulp-imagemin",
-            "gulp-plumber",
-            "gulp-postcss",
-            "gulp-rename",
-            "gulp-sass",
-            "gulp-uglify-es",
-        ]
-        if not use_docker:
-            dev_django_cmd = (
-                "uvicorn config.asgi:application --reload" if use_async else "python manage.py runserver_plus"
-            )
-            scripts.update(
-                {
-                    "dev": "concurrently npm:dev:*",
-                    "dev:webpack": "webpack serve --config webpack/dev.config.js",
-                    "dev:django": dev_django_cmd,
-                }
-            )
-        else:
-            remove_dev_deps.append("concurrently")
-        update_package_json(remove_dev_deps=remove_dev_deps, scripts=scripts)
-        remove_gulp_files()
 
 
 def remove_prettier_pre_commit():
@@ -227,18 +164,6 @@ def remove_async_files():
     ]
     for file_path in file_paths:
         file_path.unlink()
-
-
-def remove_dottravisyml_file():
-    Path(".travis.yml").unlink()
-
-
-def remove_dotgitlabciyml_file():
-    Path(".gitlab-ci.yml").unlink()
-
-
-def remove_dotgithub_folder():
-    shutil.rmtree(".github")
 
 
 def remove_dotdrone_file():
@@ -312,73 +237,17 @@ def set_django_admin_url(file_path: Path):
     )
     return django_admin_url
 
-
-def generate_random_user():
-    return generate_random_string(length=32, using_ascii_letters=True)
-
-
-def generate_postgres_user(debug=False):
-    return DEBUG_VALUE if debug else generate_random_user()
-
-
-def set_postgres_user(file_path, value):
-    postgres_user = set_flag(file_path, "!!!SET POSTGRES_USER!!!", value=value)
-    return postgres_user
-
-
-def set_postgres_password(file_path, value=None):
-    postgres_password = set_flag(
-        file_path,
-        "!!!SET POSTGRES_PASSWORD!!!",
-        value=value,
-        length=64,
-        using_digits=True,
-        using_ascii_letters=True,
-    )
-    return postgres_password
-
-
-def set_celery_flower_user(file_path, value):
-    celery_flower_user = set_flag(file_path, "!!!SET CELERY_FLOWER_USER!!!", value=value)
-    return celery_flower_user
-
-
-def set_celery_flower_password(file_path, value=None):
-    celery_flower_password = set_flag(
-        file_path,
-        "!!!SET CELERY_FLOWER_PASSWORD!!!",
-        value=value,
-        length=64,
-        using_digits=True,
-        using_ascii_letters=True,
-    )
-    return celery_flower_password
-
-
 def append_to_gitignore_file(ignored_line):
     with Path(".gitignore").open("a") as gitignore_file:
         gitignore_file.write(ignored_line)
         gitignore_file.write("\n")
 
 
-def set_flags_in_envs(postgres_user, celery_flower_user, debug=False):
-    local_django_envs_path = Path(".envs", ".local", ".django")
+def set_flags_in_envs():
     production_django_envs_path = Path(".envs", ".production", ".django")
-    local_postgres_envs_path = Path(".envs", ".local", ".postgres")
-    production_postgres_envs_path = Path(".envs", ".production", ".postgres")
 
     set_django_secret_key(production_django_envs_path)
     set_django_admin_url(production_django_envs_path)
-
-    set_postgres_user(local_postgres_envs_path, value=postgres_user)
-    set_postgres_password(local_postgres_envs_path, value=DEBUG_VALUE if debug else None)
-    set_postgres_user(production_postgres_envs_path, value=postgres_user)
-    set_postgres_password(production_postgres_envs_path, value=DEBUG_VALUE if debug else None)
-
-    set_celery_flower_user(local_django_envs_path, value=celery_flower_user)
-    set_celery_flower_password(local_django_envs_path, value=DEBUG_VALUE if debug else None)
-    set_celery_flower_user(production_django_envs_path, value=celery_flower_user)
-    set_celery_flower_password(production_django_envs_path, value=DEBUG_VALUE if debug else None)
 
 
 def set_flags_in_settings_files():
@@ -412,19 +281,10 @@ def remove_drf_starter_files():
 
 
 def main():
-    debug = "{{ cookiecutter.debug }}".lower() == "y"
 
-    set_flags_in_envs(
-        DEBUG_VALUE if debug else generate_random_user(),
-        DEBUG_VALUE if debug else generate_random_user(),
-        debug=debug,
-    )
+    set_flags_in_envs()
+
     set_flags_in_settings_files()
-
-    if "{{ cookiecutter.open_source_license }}" == "Not open source":
-        remove_open_source_files()
-    if "{{ cookiecutter.open_source_license}}" != "GPLv3":
-        remove_gplv3_files()
 
     if "{{ cookiecutter.username_type }}" == "username":
         remove_custom_user_manager_files()
@@ -461,14 +321,12 @@ def main():
 
     if "{{ cookiecutter.frontend_pipeline }}" in ["None", "Django Compressor"]:
         remove_gulp_files()
-        remove_webpack_files()
         remove_sass_files()
         remove_packagejson_file()
         remove_prettier_pre_commit()
         if "{{ cookiecutter.use_docker }}".lower() == "y":
             remove_node_dockerfile()
     else:
-        remove_project_css()
         handle_js_runner(
             "{{ cookiecutter.frontend_pipeline }}",
             use_docker=("{{ cookiecutter.use_docker }}".lower() == "y"),
@@ -485,15 +343,6 @@ def main():
         remove_celery_files()
         if "{{ cookiecutter.use_docker }}".lower() == "y":
             remove_celery_compose_dirs()
-
-    if "{{ cookiecutter.ci_tool }}" != "Travis":
-        remove_dottravisyml_file()
-
-    if "{{ cookiecutter.ci_tool }}" != "Gitlab":
-        remove_dotgitlabciyml_file()
-
-    if "{{ cookiecutter.ci_tool }}" != "Github":
-        remove_dotgithub_folder()
 
     if "{{ cookiecutter.ci_tool }}" != "Drone":
         remove_dotdrone_file()
