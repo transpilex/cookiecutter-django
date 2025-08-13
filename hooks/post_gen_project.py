@@ -36,28 +36,6 @@ def remove_pycharm_files():
         shutil.rmtree(docs_dir_path)
 
 
-def remove_docker_files():
-    shutil.rmtree(".devcontainer")
-    shutil.rmtree("compose")
-
-    file_names = [
-        "docker-compose.local.yml",
-        "docker-compose.production.yml",
-        ".dockerignore",
-        "justfile",
-    ]
-    for file_name in file_names:
-        Path(file_name).unlink()
-    if "{{ cookiecutter.editor }}" == "PyCharm":
-        file_names = ["docker_compose_up_django.xml", "docker_compose_up_docs.xml"]
-        for file_name in file_names:
-            Path(".idea", "runConfigurations", file_name).unlink()
-
-
-def remove_nginx_docker_files():
-    shutil.rmtree(Path("compose", "production", "nginx"))
-
-
 def remove_utility_files():
     shutil.rmtree("utility")
 
@@ -261,19 +239,6 @@ def remove_envs_and_associated_files():
     shutil.rmtree("tests")
 
 
-def remove_celery_compose_dirs():
-    shutil.rmtree(Path("compose", "local", "django", "celery"))
-    shutil.rmtree(Path("compose", "production", "django", "celery"))
-
-
-def remove_node_dockerfile():
-    shutil.rmtree(Path("compose", "local", "node"))
-
-
-def remove_aws_dockerfile():
-    shutil.rmtree(Path("compose", "production", "aws"))
-
-
 def remove_drf_starter_files():
     Path("config", "api_router.py").unlink()
     shutil.rmtree(Path("{{cookiecutter.project_slug}}", "users", "api"))
@@ -294,13 +259,6 @@ def main():
 
     if "{{ cookiecutter.use_docker }}".lower() == "y":
         remove_utility_files()
-        if "{{ cookiecutter.cloud_provider }}".lower() != "none":
-            remove_nginx_docker_files()
-    else:
-        remove_docker_files()
-
-    if "{{ cookiecutter.use_docker }}".lower() == "y" and "{{ cookiecutter.cloud_provider}}" != "AWS":
-        remove_aws_dockerfile()
 
     if "{{ cookiecutter.use_heroku }}".lower() == "n":
         remove_heroku_files()
@@ -324,8 +282,6 @@ def main():
         remove_sass_files()
         remove_packagejson_file()
         remove_prettier_pre_commit()
-        if "{{ cookiecutter.use_docker }}".lower() == "y":
-            remove_node_dockerfile()
     else:
         handle_js_runner(
             "{{ cookiecutter.frontend_pipeline }}",
@@ -341,8 +297,6 @@ def main():
 
     if "{{ cookiecutter.use_celery }}".lower() == "n":
         remove_celery_files()
-        if "{{ cookiecutter.use_docker }}".lower() == "y":
-            remove_celery_compose_dirs()
 
     if "{{ cookiecutter.ci_tool }}" != "Drone":
         remove_dotdrone_file()
