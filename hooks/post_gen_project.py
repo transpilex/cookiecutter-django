@@ -50,10 +50,6 @@ def remove_heroku_files():
     shutil.rmtree("bin")
 
 
-def remove_sass_files():
-    shutil.rmtree(Path("{{cookiecutter.project_slug}}", "static", "sass"))
-
-
 def remove_gulp_files():
     file_names = ["gulpfile.mjs"]
     for file_name in file_names:
@@ -279,7 +275,6 @@ def main():
 
     if "{{ cookiecutter.frontend_pipeline }}" in ["None", "Django Compressor"]:
         remove_gulp_files()
-        remove_sass_files()
         remove_packagejson_file()
         remove_prettier_pre_commit()
     else:
