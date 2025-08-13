@@ -1,8 +1,8 @@
 {
   "project_name": "My Awesome Project",
   "project_slug": "{{ cookiecutter.project_name.lower()|replace(' ', '_')|replace('-', '_')|replace('.', '_')|trim() }}",
-  "description": "Behold My Awesome Project!",
-  "author_name": "Daniel Roy Greenfeld",
+  "description": "",
+  "author_name": "",
   "domain_name": "example.com",
   "email": "{{ cookiecutter.author_name.lower() | trim() |replace(' ', '-') }}@{{ cookiecutter.domain_name.lower() | trim() }}",
   "version": "0.1.0",
@@ -18,7 +18,6 @@
   "windows": "n",
   "editor": ["None", "PyCharm", "VS Code"],
   "use_docker": "n",
-  "postgresql_version": ["17", "16", "15", "14", "13"],
   "cloud_provider": ["AWS", "GCP", "Azure", "None"],
   "mail_service": [
     "Mailgun",
@@ -33,7 +32,7 @@
   ],
   "use_async": "n",
   "use_drf": "n",
-  "frontend_pipeline": ["None", "Django Compressor", "Gulp", "Webpack"],
+  "frontend_pipeline": ["None", "Django Compressor", "Gulp"],
   "use_celery": "n",
   "use_mailpit": "n",
   "use_sentry": "n",
@@ -41,5 +40,6 @@
   "use_heroku": "n",
   "ci_tool": ["None", "Travis", "Gitlab", "Github", "Drone"],
   "keep_local_envs_in_vcs": "y",
-  "debug": "n"
+  "debug": "n",
+  "auth": "n"
 }
