@@ -2,6 +2,8 @@ from django.shortcuts import render
 from django.template import TemplateDoesNotExist
 from django.contrib.auth.decorators import login_required
 
+
+
 {%- if cookiecutter.auth == 'y' %}
 @login_required
 {%- endif %}
@@ -10,6 +12,7 @@ def root_page_view(request):
         return render(request, 'pages/index.html')
     except TemplateDoesNotExist:
         return render(request, 'pages/error-404.html')
+
 
 
 {%- if cookiecutter.auth == 'y' %}
