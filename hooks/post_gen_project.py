@@ -26,16 +26,6 @@ def remove_custom_user_manager_files():
     (users_path / "tests" / "test_managers.py").unlink()
 
 
-def remove_pycharm_files():
-    idea_dir_path = Path(".idea")
-    if idea_dir_path.exists():
-        shutil.rmtree(idea_dir_path)
-
-    docs_dir_path = Path("docs", "pycharm")
-    if docs_dir_path.exists():
-        shutil.rmtree(docs_dir_path)
-
-
 def remove_utility_files():
     shutil.rmtree("utility")
 
@@ -211,9 +201,6 @@ def main():
 
     if "{{ cookiecutter.username_type }}" == "username":
         remove_custom_user_manager_files()
-
-    if "{{ cookiecutter.editor }}" != "PyCharm":
-        remove_pycharm_files()
 
     if "{{ cookiecutter.use_docker }}".lower() == "y":
         remove_utility_files()
