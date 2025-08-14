@@ -5,7 +5,7 @@
   "author_name": "",
   "domain_name": "example.com",
   "email": "{{ cookiecutter.author_name.lower() | trim() |replace(' ', '-') }}@{{ cookiecutter.domain_name.lower() | trim() }}",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "open_source_license": [
     "MIT",
     "BSD",
@@ -13,12 +13,21 @@
     "Apache Software License 2.0",
     "Not open source"
   ],
-  "username_type": ["username", "email"],
+  "username_type": [
+    "email"
+  ],
   "timezone": "UTC",
   "windows": "n",
-  "editor": ["None", "PyCharm", "VS Code"],
+  "editor": [
+    "None"
+  ],
   "use_docker": "n",
-  "cloud_provider": ["AWS", "GCP", "Azure", "None"],
+  "cloud_provider": [
+    "AWS",
+    "GCP",
+    "Azure",
+    "None"
+  ],
   "mail_service": [
     "Mailgun",
     "Amazon SES",
@@ -32,18 +41,24 @@
   ],
   "use_async": "n",
   "use_drf": "n",
-  "frontend_pipeline": ["None", "Django Compressor", "Gulp"],
+  "frontend_pipeline": [
+    "None",
+    "Gulp"
+  ],
+  "plugins_config": "y",
   "use_celery": "n",
   "use_mailpit": "n",
   "use_sentry": "n",
   "use_whitenoise": "n",
   "use_heroku": "n",
-  "ci_tool": ["None", "Travis", "Gitlab", "Github", "Drone"],
+  "ci_tool": [
+    "None"
+  ],
   "keep_local_envs_in_vcs": "y",
   "debug": "n",
   "auth": "n",
   "_copy_without_render": [
-        "{{cookiecutter.project_slug}}/templates",
-        "{{cookiecutter.project_slug}}/static"
-    ]
+    "{{cookiecutter.project_slug}}/templates",
+    "{{cookiecutter.project_slug}}/static"
+  ]
 }

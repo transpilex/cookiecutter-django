@@ -51,7 +51,7 @@ def remove_heroku_files():
 
 
 def remove_gulp_files():
-    file_names = ["gulpfile.mjs"]
+    file_names = ["gulpfile.js"]
     for file_name in file_names:
         Path(file_name).unlink()
 
@@ -80,45 +80,11 @@ def update_package_json(remove_dev_deps=None, remove_keys=None, scripts=None):
 def handle_js_runner(choice, use_docker, use_async):
     if choice == "Gulp":
         update_package_json(
-            remove_dev_deps=[
-                "@babel/core",
-                "@babel/preset-env",
-                "babel-loader",
-                "concurrently",
-                "css-loader",
-                "mini-css-extract-plugin",
-                "postcss-loader",
-                "postcss-preset-env",
-                "sass-loader",
-                "webpack",
-                "webpack-bundle-tracker",
-                "webpack-cli",
-                "webpack-dev-server",
-                "webpack-merge",
-            ],
-            remove_keys=["babel"],
             scripts={
                 "dev": "gulp",
                 "build": "gulp build",
             },
         )
-
-
-def remove_prettier_pre_commit():
-    pre_commit_yaml = Path(".pre-commit-config.yaml")
-    content = pre_commit_yaml.read_text().splitlines()
-
-    removing = False
-    new_lines = []
-    for line in content:
-        if removing and "- repo:" in line:
-            removing = False
-        if "mirrors-prettier" in line:
-            removing = True
-        if not removing:
-            new_lines.append(line)
-
-    pre_commit_yaml.write_text("\n".join(new_lines))
 
 
 def remove_celery_files():
@@ -138,10 +104,6 @@ def remove_async_files():
     ]
     for file_path in file_paths:
         file_path.unlink()
-
-
-def remove_dotdrone_file():
-    Path(".drone.yml").unlink()
 
 
 def generate_random_string(length, using_digits=False, using_ascii_letters=False, using_punctuation=False):
@@ -276,7 +238,6 @@ def main():
     if "{{ cookiecutter.frontend_pipeline }}" in ["None", "Django Compressor"]:
         remove_gulp_files()
         remove_packagejson_file()
-        remove_prettier_pre_commit()
     else:
         handle_js_runner(
             "{{ cookiecutter.frontend_pipeline }}",
@@ -292,9 +253,6 @@ def main():
 
     if "{{ cookiecutter.use_celery }}".lower() == "n":
         remove_celery_files()
-
-    if "{{ cookiecutter.ci_tool }}" != "Drone":
-        remove_dotdrone_file()
 
     if "{{ cookiecutter.use_drf }}".lower() == "n":
         remove_drf_starter_files()
