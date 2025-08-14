@@ -52,31 +52,6 @@ def remove_packagejson_file():
         Path(file_name).unlink()
 
 
-def update_package_json(remove_dev_deps=None, remove_keys=None, scripts=None):
-    remove_dev_deps = remove_dev_deps or []
-    remove_keys = remove_keys or []
-    scripts = scripts or {}
-    package_json = Path("package.json")
-    content = json.loads(package_json.read_text())
-    for package_name in remove_dev_deps:
-        content["devDependencies"].pop(package_name)
-    for key in remove_keys:
-        content.pop(key)
-    content["scripts"].update(scripts)
-    updated_content = json.dumps(content, ensure_ascii=False, indent=2) + "\n"
-    package_json.write_text(updated_content)
-
-
-def handle_js_runner(choice, use_docker, use_async):
-    if choice == "Gulp":
-        update_package_json(
-            scripts={
-                "dev": "gulp",
-                "build": "gulp build",
-            },
-        )
-
-
 def remove_celery_files():
     file_paths = [
         Path("config", "celery_app.py"),
@@ -225,12 +200,6 @@ def main():
     if "{{ cookiecutter.frontend_pipeline }}" in ["None", "Django Compressor"]:
         remove_gulp_files()
         remove_packagejson_file()
-    else:
-        handle_js_runner(
-            "{{ cookiecutter.frontend_pipeline }}",
-            use_docker=("{{ cookiecutter.use_docker }}".lower() == "y"),
-            use_async=("{{ cookiecutter.use_async }}".lower() == "y"),
-        )
 
     if "{{ cookiecutter.cloud_provider }}" == "None" and "{{ cookiecutter.use_docker }}".lower() == "n":
         print(
