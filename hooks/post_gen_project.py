@@ -30,16 +30,6 @@ def remove_utility_files():
     shutil.rmtree("utility")
 
 
-def remove_heroku_files():
-    file_names = ["Procfile", "requirements.txt"]
-    for file_name in file_names:
-        if file_name == "requirements.txt" and "{{ cookiecutter.ci_tool }}".lower() == "travis":
-            # don't remove the file if we are using travisci but not using heroku
-            continue
-        Path(file_name).unlink()
-    shutil.rmtree("bin")
-
-
 def remove_gulp_files():
     file_names = ["gulpfile.js"]
     for file_name in file_names:
@@ -179,9 +169,6 @@ def main():
 
     if "{{ cookiecutter.use_docker }}".lower() == "y":
         remove_utility_files()
-
-    if "{{ cookiecutter.use_heroku }}".lower() == "n":
-        remove_heroku_files()
 
     if "{{ cookiecutter.use_docker }}".lower() == "n" and "{{ cookiecutter.use_heroku }}".lower() == "n":
         if "{{ cookiecutter.keep_local_envs_in_vcs }}".lower() == "y":
