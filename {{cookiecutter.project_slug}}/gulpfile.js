@@ -36,7 +36,7 @@ const pluginFile = {
 const processCss = [
     {%- if cookiecutter.ui_library == 'Tailwind' %}
     tailwindcss(),
-    {%- else %}
+    {%- endif %}
     autoprefixer(), // adds vendor prefixes
     pixrem(), // add fallbacks for rem units
 ];
@@ -240,7 +240,7 @@ exports.build = series(
         vendorStyles,
         vendorScripts,
     {%- endif %}
-    parallel(styles)
+    parallel(styles),
 );
 
 {%- if cookiecutter.ui_library == 'Bootstrap' %}
@@ -252,7 +252,7 @@ exports.rtl = series(
         vendorScripts,
     {%- endif %}
     parallel(rtl),
-    parallel(watchFiles)
+    parallel(watchFiles),
 );
 
 // RTL Build Tasks
@@ -262,6 +262,6 @@ exports.rtlBuild = series(
         vendorStyles,
         vendorScripts,
     {%- endif %}
-    parallel(rtl)
+    parallel(rtl),
 );
 {%- endif %}
