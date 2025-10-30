@@ -3,7 +3,7 @@ import {globSync} from 'glob'
 
 {%- if cookiecutter.ui_library == 'Tailwind' -%}
 import tailwindcss from '@tailwindcss/vite'
-{%- else %}
+{%- endif %}
 
 import path from 'node:path'
 
@@ -14,7 +14,7 @@ export default defineConfig({
     plugins: [
         tailwindcss()
     ],
-    {%- else %}
+    {%- endif %}
     build: {
         outDir: 'dist',
         manifest: true,
