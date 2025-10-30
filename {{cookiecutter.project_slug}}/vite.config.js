@@ -1,8 +1,8 @@
 import {defineConfig} from 'vite';
-import {globSync} from 'glob'
+import {globSync} from 'glob';
 
-{%- if cookiecutter.ui_library == 'Tailwind' -%}
-import tailwindcss from '@tailwindcss/vite'
+{%- if cookiecutter.ui_library == 'Tailwind' %}
+import tailwindcss from '@tailwindcss/vite';
 {%- endif %}
 
 import path from 'node:path'
@@ -10,7 +10,7 @@ import path from 'node:path'
 
 export default defineConfig({
     base: '/static/',
-    {%- if cookiecutter.ui_library == 'Tailwind' -%}
+    {%- if cookiecutter.ui_library == 'Tailwind' %}
     plugins: [
         tailwindcss()
     ],

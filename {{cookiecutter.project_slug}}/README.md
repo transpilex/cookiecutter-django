@@ -5,11 +5,6 @@
 [![Built with Cookiecutter Django](https://img.shields.io/badge/built%20with-Cookiecutter%20Django-ff69b4.svg?logo=cookiecutter)](https://github.com/cookiecutter/cookiecutter-django/)
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 
-{%- if cookiecutter.open_source_license != "Not open source" %}
-
-License: {{cookiecutter.open_source_license}}
-{%- endif %}
-
 ## Settings
 
 Moved to [settings](https://cookiecutter-django.readthedocs.io/en/latest/1-getting-started/settings.html).
@@ -43,11 +38,3 @@ To run the tests, check your test coverage, and generate an HTML coverage report
 #### Running tests with pytest
 
     uv run pytest
-
-### Live reloading and Sass CSS compilation
-
-Moved to [Live reloading and SASS compilation](https://cookiecutter-django.readthedocs.io/en/latest/2-local-development/developing-locally.html#using-webpack-or-gulp).
-
-## Deployment
-
-The following details how to deploy this application.

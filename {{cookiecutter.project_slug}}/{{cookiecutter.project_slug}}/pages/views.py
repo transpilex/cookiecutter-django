@@ -1,7 +1,8 @@
 from django.shortcuts import render
 from django.template import TemplateDoesNotExist
+{%- if cookiecutter.use_auth == 'y' %}
 from django.contrib.auth.decorators import login_required
-
+{%- endif %}
 
 
 {%- if cookiecutter.use_auth == 'y' %}

@@ -247,15 +247,6 @@ def setup_dependencies():
         print(f"Error installing local dependencies: {e}", file=sys.stderr)
         sys.exit(1)
 
-    # Remove the requirements directory
-    requirements_dir = Path("requirements")
-    if requirements_dir.exists():
-        try:
-            shutil.rmtree(requirements_dir)
-        except Exception as e:  # noqa: BLE001
-            print(f"Error removing 'requirements' folder: {e}", file=sys.stderr)
-            sys.exit(1)
-
     print("Setup complete!")
 
 
