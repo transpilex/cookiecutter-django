@@ -1,0 +1,39 @@
+{% extends 'layouts/base.html' %}
+
+{% load static i18n crispy_forms_tags %}
+
+{% block title %}Login{% endblock title %}
+
+{% block body_attribute %}{% endblock body_attribute %}
+
+{% block content %}
+
+  <div>
+    <form method="POST" action="{% url 'account_login' %}">
+
+      {% csrf_token %}
+      {{ form|crispy }}
+      {% if redirect_field_value %}
+
+        <input type="hidden" name="{{ redirect_field_name }}"
+               value="{{ redirect_field_value }}"/>
+      {% endif %}
+
+      <div>
+        <button type="submit">Sign In</button>
+      </div>
+    </form>
+
+    <p>
+      New here? <a href="{% url 'account_signup' %}">Create an account</a>
+    </p>
+  </div>
+
+{% endblock content %}
+
+{% block extra_javascript %}
+  <script>
+    document.getElementById('id_login').value = "example@mail.com"
+    document.getElementById('id_password').value = "password"
+  </script>
+{% endblock %}
