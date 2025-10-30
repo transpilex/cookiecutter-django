@@ -116,7 +116,7 @@ def handle_js_runner(frontend_pipeline, ui_library):
                 "pixrem",
                 "postcss",
                 "sass"
-            ],
+            ]
         else:
             remove_dev_deps = [
                 "@tailwindcss/postcss",
