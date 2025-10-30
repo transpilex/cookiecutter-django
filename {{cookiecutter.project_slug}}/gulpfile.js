@@ -24,7 +24,7 @@ const paths = {
 };
 
 
-{%- if cookiecutter.has_has_plugins_config == 'y' %}
+{%- if cookiecutter.has_plugins_config == 'y' %}
 const pluginFile = require("./plugins.config"); // Import the plugins list
 {%- else %}
 const pluginFile = {
