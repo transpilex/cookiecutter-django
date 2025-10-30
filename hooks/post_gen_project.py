@@ -77,7 +77,7 @@ def handle_js_runner(frontend_pipeline, ui_library):
                 "gulp-sass",
                 "node-sass-tilde-importer",
                 "gulp-rtlcss"
-            ],
+            ]
         else:
             scripts = {
                 "dev": "gulp",
@@ -91,7 +91,7 @@ def handle_js_runner(frontend_pipeline, ui_library):
                 "glob",
                 "path",
                 "vite"
-            ],
+            ]
         update_package_json(remove_dev_deps=remove_dev_deps, scripts=scripts)
         remove_vite_files()
     elif frontend_pipeline == "Vite":
@@ -110,7 +110,7 @@ def handle_js_runner(frontend_pipeline, ui_library):
                 "gulp-npm-dist",
                 "gulp-postcss",
                 "gulp-rename",
-                "gulp-rtlcss"
+                "gulp-rtlcss",
                 "gulp-sass",
                 "node-sass-tilde-importer",
                 "pixrem",

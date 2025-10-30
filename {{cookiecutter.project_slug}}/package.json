@@ -15,7 +15,6 @@
     "gulp-rename": "^2.0.0",
     "gulp-rtlcss": "^2.0.0",
     "gulp-sass": "^5.0.0",
-    "gulp-uglify-es": "^3.0.0",
     "node-sass-tilde-importer": "^1.0.2",
     "path": "^0.12.7",
     "pixrem": "^5.0.0",
