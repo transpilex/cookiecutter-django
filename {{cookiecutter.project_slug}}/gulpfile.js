@@ -7,7 +7,6 @@ const pixrem = require('pixrem');
 const plumber = require('gulp-plumber');
 const postcss = require('gulp-postcss');
 const rename = require('gulp-rename');
-const gulUglifyES = require('gulp-uglify-es');
 const npmdist = require('gulp-npm-dist');
 {%- if cookiecutter.ui_library == 'Tailwind' %}
 const tailwindcss = require('@tailwindcss/postcss');
@@ -28,12 +27,23 @@ const paths = {
 {%- if cookiecutter.has_has_plugins_config == 'y' %}
 const pluginFile = require("./plugins.config"); // Import the plugins list
 {%- else %}
-const pluginFile = {{
+const pluginFile = {
     vendorsCSS: [],
     vendorsJS: []
-}}
+}
 {%- endif %}
 
+const processCss = [
+    {%- if cookiecutter.ui_library == 'Tailwind' %}
+    tailwindcss(),
+    {%- else %}
+    autoprefixer(), // adds vendor prefixes
+    pixrem(), // add fallbacks for rem units
+];
+
+const minifyCss = [
+    cssnano({preset: 'default'}), // minify result
+];
 
 {%- if cookiecutter.has_plugins_config == 'y' %}
 // Copying Third Party Plugins Assets

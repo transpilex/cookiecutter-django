@@ -106,7 +106,6 @@ def handle_js_runner(frontend_pipeline, ui_library):
                 "gulp-rename",
                 "gulp-rtlcss"
                 "gulp-sass",
-                "gulp-uglify-es",
                 "node-sass-tilde-importer",
                 "pixrem",
                 "postcss",
@@ -126,7 +125,6 @@ def handle_js_runner(frontend_pipeline, ui_library):
                 "gulp-rename",
                 "gulp-rtlcss"
                 "gulp-sass",
-                "gulp-uglify-es",
                 "node-sass-tilde-importer",
                 "pixrem",
                 "postcss"
