@@ -22,6 +22,12 @@ HINT = "\x1b[3;33m"
 SUCCESS = "\x1b[1;32m [SUCCESS]: "
 
 
+def remove_auth_files():
+    auth_dir_path = Path("{{cookiecutter.project_slug}}", "templates", "account")
+    if auth_dir_path.exists():
+        shutil.rmtree(auth_dir_path)
+
+
 def remove_gulp_files():
     file_names = ["gulpfile.js"]
     for file_name in file_names:
@@ -213,6 +219,9 @@ def main():
 
     if "{{ cookiecutter.use_drf }}".lower() == "n":
         remove_drf_starter_files()
+
+    if "{{ cookiecutter.use_auth }}".lower() == "n":
+        remove_auth_files()
 
     setup_dependencies()
 
