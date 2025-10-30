@@ -96,7 +96,7 @@ GS_DEFAULT_ACL = "publicRead"
 AZURE_ACCOUNT_KEY = env("DJANGO_AZURE_ACCOUNT_KEY")
 AZURE_ACCOUNT_NAME = env("DJANGO_AZURE_ACCOUNT_NAME")
 AZURE_CONTAINER = env("DJANGO_AZURE_CONTAINER_NAME")
-{% endif -%}
+{%- endif %}
 
 
 {%- if cookiecutter.cloud_provider == 'AWS' %}
@@ -200,15 +200,6 @@ EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 ANYMAIL = {}
 {%- endif %}
 
-# https://django-compressor.readthedocs.io/en/latest/settings/#django.conf.settings.COMPRESS_FILTERS
-COMPRESS_FILTERS = {
-    "css": [
-        "compressor.filters.css_default.CssAbsoluteFilter",
-        "compressor.filters.cssmin.rCSSMinFilter",
-    ],
-    "js": ["compressor.filters.jsmin.JSMinFilter"],
-}
-{% endif %}
 {%- if cookiecutter.cloud_provider in ('AWS', 'GCP', 'Azure') -%}
 # Collectfasta
 # ------------------------------------------------------------------------------
