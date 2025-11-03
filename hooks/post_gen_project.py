@@ -129,7 +129,7 @@ def handle_js_runner(frontend_pipeline, ui_library):
                 "gulp-npm-dist",
                 "gulp-postcss",
                 "gulp-rename",
-                "gulp-rtlcss"
+                "gulp-rtlcss",
                 "gulp-sass",
                 "node-sass-tilde-importer",
                 "pixrem",
