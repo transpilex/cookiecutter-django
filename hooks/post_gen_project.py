@@ -105,6 +105,7 @@ def handle_js_runner(frontend_pipeline, ui_library):
                 "autoprefixer",
                 "cssnano",
                 "gulp",
+                "gulp-clean-css",
                 "gulp-concat",
                 "gulp-plumber",
                 "gulp-npm-dist",
@@ -112,7 +113,7 @@ def handle_js_runner(frontend_pipeline, ui_library):
                 "gulp-rename",
                 "gulp-rtlcss",
                 "gulp-sass",
-                "node-sass-tilde-importer",
+                "gulp-sourcemaps",
                 "pixrem",
                 "postcss",
                 "sass"
@@ -124,6 +125,7 @@ def handle_js_runner(frontend_pipeline, ui_library):
                 "autoprefixer",
                 "cssnano",
                 "gulp",
+                "gulp-clean-css",
                 "gulp-concat",
                 "gulp-plumber",
                 "gulp-npm-dist",
@@ -131,7 +133,7 @@ def handle_js_runner(frontend_pipeline, ui_library):
                 "gulp-rename",
                 "gulp-rtlcss",
                 "gulp-sass",
-                "node-sass-tilde-importer",
+                "gulp-sourcemaps",
                 "pixrem",
                 "postcss"
             ]

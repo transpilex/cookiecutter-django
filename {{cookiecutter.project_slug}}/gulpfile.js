@@ -13,8 +13,10 @@ const tailwindcss = require('@tailwindcss/postcss');
 {%- else %}
 const gulpSass = require('gulp-sass');
 const dartSass = require('sass');
-const tildeImporter = require('node-sass-tilde-importer');
 const rtlcss = require('gulp-rtlcss');
+const sourcemaps = require("gulp-sourcemaps");
+const CleanCSS = require("gulp-clean-css");
+const sass = gulpSass(dartSass);
 {%- endif %}
 
 
@@ -33,10 +35,9 @@ const pluginFile = {
 }
 {%- endif %}
 
+{%- if cookiecutter.ui_library == 'Tailwind' %}
 const processCss = [
-    {%- if cookiecutter.ui_library == 'Tailwind' %}
     tailwindcss(),
-    {%- endif %}
     autoprefixer(), // adds vendor prefixes
     pixrem(), // add fallbacks for rem units
 ];
@@ -44,6 +45,7 @@ const processCss = [
 const minifyCss = [
     cssnano({preset: 'default'}), // minify result
 ];
+{%- endif %}
 
 {%- if cookiecutter.has_plugins_config == 'y' %}
 // Copying Third Party Plugins Assets
@@ -216,7 +218,7 @@ const rtl = function () {
 }
 
 function watchFiles() {
-    watch(paths.baseSrcAssets + "scss/**/*.scss", series(scss));
+    watch(paths.baseSrcAssets + "scss/**/*.scss", series(styles));
 }
 
 {%- endif %}
