@@ -174,10 +174,9 @@ STATIC_URL = "/static/"
 # https://docs.djangoproject.com/en/dev/ref/contrib/staticfiles/#std:setting-STATICFILES_DIRS
 STATICFILES_DIRS = [
 {%- if cookiecutter.frontend_pipeline == 'Vite' %}
-    DJANGO_VITE_ASSETS_PATH
-{%- else %}
-    str(APPS_DIR / "static")
+    DJANGO_VITE_ASSETS_PATH,
 {%- endif %}
+    str(APPS_DIR / "static")
 ]
 # https://docs.djangoproject.com/en/dev/ref/contrib/staticfiles/#staticfiles-finders
 STATICFILES_FINDERS = [
