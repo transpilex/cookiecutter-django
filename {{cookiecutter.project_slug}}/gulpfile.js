@@ -50,7 +50,7 @@ const minifyCss = [
 {%- if cookiecutter.has_plugins_config == 'y' %}
 // Copying Third Party Plugins Assets
 const plugins = function () {
-    const out = paths.baseDistAssets + "plugins/";
+    const out = paths.baseDistAssets + "/plugins/";
 
     pluginFile.forEach(({name, vendorsJS, vendorCSS, vendorFonts, assets, fonts, font, media, img, webfonts}) => {
 
@@ -180,9 +180,9 @@ const watchFiles = function () {
 {%- else %}
 
 const styles = function () {
-    const out = paths.baseDistAssets + "css/";
+    const out = paths.baseDistAssets + "/css/";
 
-    return src(paths.baseSrcAssets + "scss/**/*.scss")
+    return src(paths.baseSrcAssets + "/scss/**/*.scss")
         .pipe(sourcemaps.init())
         .pipe(sass.sync().on('error', sass.logError)) // scss to css
         .pipe(
@@ -198,9 +198,9 @@ const styles = function () {
 };
 
 const rtl = function () {
-    const out = paths.baseDistAssets + "css/";
+    const out = paths.baseDistAssets + "/css/";
 
-    return src(paths.baseSrcAssets + "scss/**/*.scss")
+    return src(paths.baseSrcAssets + "/scss/**/*.scss")
         .pipe(sourcemaps.init())
         .pipe(sass.sync().on('error', sass.logError)) // scss to css
         .pipe(
@@ -218,7 +218,7 @@ const rtl = function () {
 }
 
 function watchFiles() {
-    watch(paths.baseSrcAssets + "scss/**/*.scss", series(styles));
+    watch(paths.baseSrcAssets + "/scss/**/*.scss", series(styles));
 }
 
 {%- endif %}
