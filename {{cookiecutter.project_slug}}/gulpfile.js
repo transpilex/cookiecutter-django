@@ -1,6 +1,5 @@
 const {series, src, dest, parallel, watch} = require("gulp");
 
-const autoprefixer = require('autoprefixer');
 const concat = require('gulp-concat');
 const cssnano = require('cssnano');
 const pixrem = require('pixrem');
@@ -9,6 +8,7 @@ const postcss = require('gulp-postcss');
 const rename = require('gulp-rename');
 const npmdist = require('gulp-npm-dist');
 {%- if cookiecutter.ui_library == 'Tailwind' %}
+const autoprefixer = require('autoprefixer');
 const tailwindcss = require('@tailwindcss/postcss');
 {%- else %}
 const gulpSass = require('gulp-sass');
@@ -185,11 +185,6 @@ const styles = function () {
     return src(paths.baseSrcAssets + "/scss/**/*.scss")
         .pipe(sourcemaps.init())
         .pipe(sass.sync().on('error', sass.logError)) // scss to css
-        .pipe(
-            autoprefixer({
-                overrideBrowserslist: ["last 2 versions"],
-            })
-        )
         .pipe(dest(out))
         .pipe(CleanCSS())
         .pipe(rename({suffix: ".min"}))
@@ -203,11 +198,6 @@ const rtl = function () {
     return src(paths.baseSrcAssets + "/scss/**/*.scss")
         .pipe(sourcemaps.init())
         .pipe(sass.sync().on('error', sass.logError)) // scss to css
-        .pipe(
-            autoprefixer({
-                overrideBrowserslist: ["last 2 versions"],
-            })
-        )
         .pipe(rtlcss())
         .pipe(rename({suffix: "-rtl"}))
         .pipe(dest(out))

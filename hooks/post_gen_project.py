@@ -75,8 +75,9 @@ def handle_js_runner(frontend_pipeline, ui_library):
                 "vite",
                 "sass",
                 "gulp-sass",
-                "node-sass-tilde-importer",
-                "gulp-rtlcss"
+                "gulp-sourcemaps",
+                "gulp-rtlcss",
+                "gulp-clean-css"
             ]
         else:
             scripts = {
@@ -88,6 +89,7 @@ def handle_js_runner(frontend_pipeline, ui_library):
             remove_dev_deps = [
                 "@tailwindcss/postcss",
                 "@tailwindcss/vite",
+                "autoprefixer",
                 "glob",
                 "path",
                 "vite"
