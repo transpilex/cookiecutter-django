@@ -75,9 +75,9 @@ def handle_js_runner(frontend_pipeline, ui_library):
                 "vite",
                 "sass",
                 "gulp-sass",
-                "gulp-sourcemaps",
-                "gulp-rtlcss",
-                "gulp-clean-css"
+                "gulp-uglify-es",
+                "node-sass-tilde-importer",
+                "gulp-rtlcss"
             ]
         else:
             scripts = {
@@ -107,15 +107,16 @@ def handle_js_runner(frontend_pipeline, ui_library):
                 "autoprefixer",
                 "cssnano",
                 "gulp",
-                "gulp-clean-css",
                 "gulp-concat",
                 "gulp-plumber",
                 "gulp-npm-dist",
                 "gulp-postcss",
                 "gulp-rename",
+                "gulp-replace"
                 "gulp-rtlcss",
                 "gulp-sass",
-                "gulp-sourcemaps",
+                "gulp-uglify-es",
+                "node-sass-tilde-importer",
                 "pixrem",
                 "postcss",
                 "sass"
@@ -127,15 +128,16 @@ def handle_js_runner(frontend_pipeline, ui_library):
                 "autoprefixer",
                 "cssnano",
                 "gulp",
-                "gulp-clean-css",
                 "gulp-concat",
                 "gulp-plumber",
                 "gulp-npm-dist",
                 "gulp-postcss",
                 "gulp-rename",
+                "gulp-replace"
                 "gulp-rtlcss",
                 "gulp-sass",
-                "gulp-sourcemaps",
+                "gulp-uglify-es",
+                "node-sass-tilde-importer",
                 "pixrem",
                 "postcss"
             ]

@@ -1,29 +1,27 @@
-const {series, src, dest, parallel, watch} = require("gulp");
+// Gulp and package
+const {src, dest, parallel, series, watch} = require('gulp');
 
+// Plugins
+const autoprefixer = require('autoprefixer');
 const concat = require('gulp-concat');
 const cssnano = require('cssnano');
 const pixrem = require('pixrem');
 const plumber = require('gulp-plumber');
 const postcss = require('gulp-postcss');
 const rename = require('gulp-rename');
+const gulUglifyES = require('gulp-uglify-es');
 const npmdist = require('gulp-npm-dist');
+const replace = require('gulp-replace');
 {%- if cookiecutter.ui_library == 'Tailwind' %}
-const autoprefixer = require('autoprefixer');
 const tailwindcss = require('@tailwindcss/postcss');
 {%- else %}
 const gulpSass = require('gulp-sass');
 const dartSass = require('sass');
+const tildeImporter = require('node-sass-tilde-importer');
 const rtlcss = require('gulp-rtlcss');
-const sourcemaps = require("gulp-sourcemaps");
-const CleanCSS = require("gulp-clean-css");
 const sass = gulpSass(dartSass);
+const uglify = gulUglifyES.default;
 {%- endif %}
-
-
-const paths = {
-    baseDistAssets: "{{ cookiecutter.project_slug }}/static", // build assets directory
-    baseSrcAssets: "{{ cookiecutter.project_slug }}/static",   // source assets directory
-};
 
 
 {%- if cookiecutter.has_plugins_config == 'y' %}
@@ -35,17 +33,11 @@ const pluginFile = {
 }
 {%- endif %}
 
-{%- if cookiecutter.ui_library == 'Tailwind' %}
-const processCss = [
-    tailwindcss(),
-    autoprefixer(), // adds vendor prefixes
-    pixrem(), // add fallbacks for rem units
-];
 
-const minifyCss = [
-    cssnano({preset: 'default'}), // minify result
-];
-{%- endif %}
+const paths = {
+    baseDistAssets: "{{ cookiecutter.project_slug }}/static", // build assets directory
+    baseSrcAssets: "{{ cookiecutter.project_slug }}/static",   // source assets directory
+};
 
 {%- if cookiecutter.has_plugins_config == 'y' %}
 // Copying Third Party Plugins Assets
@@ -69,9 +61,10 @@ const plugins = function () {
 
         if (vendorCSS) {
             src(vendorCSS)
-                .pipe(concat("vendors.min.css"))
-                .on('error', handleError('vendorCSS'))
-                .pipe(dest(paths.baseDistAssets + "/css/"));
+              .pipe(concat("vendors.min.css"))
+              .on('error', handleError('vendorCSS'))
+              .pipe(replace(/url\((['"]?)(remixicon|boxicons)/g, "url($1fonts/$2"))
+              .pipe(dest(paths.baseDistAssets + "css/"));
         }
 
         if (vendorFonts) {
@@ -161,6 +154,16 @@ const plugins = function () {
 
 {%- if cookiecutter.ui_library == 'Tailwind' %}
 
+const processCss = [
+    tailwindcss(),
+    autoprefixer(), // adds vendor prefixes
+    pixrem(), // add fallbacks for rem units
+];
+
+const minifyCss = [
+    cssnano({preset: 'default'}), // minify result
+];
+
 const styles = function () {
     const out = paths.baseDistAssets + "/css/";
 
@@ -179,16 +182,30 @@ const watchFiles = function () {
 
 {%- else %}
 
+const processCss = [
+    autoprefixer(), // adds vendor prefixes
+    pixrem(), // add fallbacks for rem units
+];
+
+const minifyCss = [
+    cssnano({preset: 'default'}), // minify result
+];
+
 const styles = function () {
     const out = paths.baseDistAssets + "/css/";
 
     return src(paths.baseSrcAssets + "/scss/**/*.scss")
-        .pipe(sourcemaps.init())
-        .pipe(sass.sync().on('error', sass.logError)) // scss to css
+        .pipe(
+            sass({
+                importer: tildeImporter,
+                includePaths: [paths.baseSrcAssets + "/scss"],
+            }).on('error', sass.logError),
+        )
+        .pipe(plumber()) // Checks for errors
+        .pipe(postcss(processCss))
         .pipe(dest(out))
-        .pipe(CleanCSS())
-        .pipe(rename({suffix: ".min"}))
-        .pipe(sourcemaps.write("./")) // source maps
+        .pipe(rename({suffix: '.min'}))
+        .pipe(postcss(minifyCss)) // Minifies the result
         .pipe(dest(out));
 };
 
@@ -196,16 +213,20 @@ const rtl = function () {
     const out = paths.baseDistAssets + "/css/";
 
     return src(paths.baseSrcAssets + "/scss/**/*.scss")
-        .pipe(sourcemaps.init())
-        .pipe(sass.sync().on('error', sass.logError)) // scss to css
-        .pipe(rtlcss())
-        .pipe(rename({suffix: "-rtl"}))
+        .pipe(
+            sass({
+                importer: tildeImporter,
+                includePaths: [paths.baseSrcAssets + "/scss"],
+            }).on('error', sass.logError),
+        )
+        .pipe(plumber()) // Checks for errors
+        .pipe(postcss(processCss))
         .pipe(dest(out))
-        .pipe(CleanCSS())
-        .pipe(rename({suffix: ".min"}))
-        .pipe(sourcemaps.write("./")) // source maps
+        .pipe(rtlcss())
+        .pipe(rename({suffix: "-rtl.min"}))
+        .pipe(postcss(minifyCss)) // Minifies the result
         .pipe(dest(out));
-}
+};
 
 function watchFiles() {
     watch(paths.baseSrcAssets + "/scss/**/*.scss", series(styles));
