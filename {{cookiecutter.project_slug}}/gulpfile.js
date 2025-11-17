@@ -64,7 +64,7 @@ const plugins = function () {
               .pipe(concat("vendors.min.css"))
               .on('error', handleError('vendorCSS'))
               .pipe(replace(/url\((['"]?)(remixicon|boxicons)/g, "url($1fonts/$2"))
-              .pipe(dest(paths.baseDistAssets + "css/"));
+              .pipe(dest(paths.baseDistAssets + "/css/"));
         }
 
         if (vendorFonts) {

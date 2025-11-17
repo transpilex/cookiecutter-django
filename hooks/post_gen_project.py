@@ -89,7 +89,6 @@ def handle_js_runner(frontend_pipeline, ui_library):
             remove_dev_deps = [
                 "@tailwindcss/postcss",
                 "@tailwindcss/vite",
-                "autoprefixer",
                 "glob",
                 "path",
                 "vite"
