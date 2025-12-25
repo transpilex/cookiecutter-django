@@ -111,7 +111,7 @@ def handle_js_runner(frontend_pipeline, ui_library):
                 "gulp-npm-dist",
                 "gulp-postcss",
                 "gulp-rename",
-                "gulp-replace"
+                "gulp-replace",
                 "gulp-rtlcss",
                 "gulp-sass",
                 "gulp-uglify-es",
@@ -132,7 +132,7 @@ def handle_js_runner(frontend_pipeline, ui_library):
                 "gulp-npm-dist",
                 "gulp-postcss",
                 "gulp-rename",
-                "gulp-replace"
+                "gulp-replace",
                 "gulp-rtlcss",
                 "gulp-sass",
                 "gulp-uglify-es",
