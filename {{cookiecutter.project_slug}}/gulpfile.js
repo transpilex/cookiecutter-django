@@ -18,7 +18,6 @@ const tailwindcss = require('@tailwindcss/postcss');
 const gulpSass = require('gulp-sass');
 const dartSass = require('sass');
 const tildeImporter = require('node-sass-tilde-importer');
-const rtlcss = require('gulp-rtlcss');
 const sass = gulpSass(dartSass);
 const uglify = gulUglifyES.default;
 {%- endif %}
@@ -82,7 +81,7 @@ const plugins = function () {
         if (img) {
             src(img)
                 .on('error', handleError('img'))
-                .pipe(dest(`${out}${name}/img/`));
+                .pipe(dest(`${out}${name}/images/`));
         }
 
         if (media) {
@@ -167,10 +166,10 @@ const minifyCss = [
 const styles = function () {
     const out = paths.baseDistAssets + "/css/";
 
-    return src(paths.baseSrcAssets + "/css/style.css")
+    return src(paths.baseSrcAssets + "/css/app.css")
         .pipe(plumber()) // Checks for errors
         .pipe(postcss(processCss))
-        .pipe(dest(out))
+        // .pipe(dest(out))
         .pipe(rename({suffix: '.min'}))
         .pipe(postcss(minifyCss)) // Minifies the result
         .pipe(dest(out));
@@ -209,25 +208,6 @@ const styles = function () {
         .pipe(dest(out));
 };
 
-const rtl = function () {
-    const out = paths.baseDistAssets + "/css/";
-
-    return src(paths.baseSrcAssets + "/scss/**/*.scss")
-        .pipe(
-            sass({
-                importer: tildeImporter,
-                includePaths: [paths.baseSrcAssets + "/scss"],
-            }).on('error', sass.logError),
-        )
-        .pipe(plumber()) // Checks for errors
-        .pipe(postcss(processCss))
-        .pipe(dest(out))
-        .pipe(rtlcss())
-        .pipe(rename({suffix: "-rtl.min"}))
-        .pipe(postcss(minifyCss)) // Minifies the result
-        .pipe(dest(out));
-};
-
 function watchFiles() {
     watch(paths.baseSrcAssets + "/scss/**/*.scss", series(styles));
 }
@@ -255,26 +235,3 @@ exports.build = series(
     {%- endif %}
     parallel(styles),
 );
-
-{%- if cookiecutter.ui_library == 'Bootstrap' %}
-// RTL Tasks
-exports.rtl = series(
-    plugins,
-    {%- if cookiecutter.has_plugins_config == 'n' %}
-        vendorStyles,
-        vendorScripts,
-    {%- endif %}
-    parallel(rtl),
-    parallel(watchFiles),
-);
-
-// RTL Build Tasks
-exports.rtlBuild = series(
-    plugins,
-    {%- if cookiecutter.has_plugins_config == 'n' %}
-        vendorStyles,
-        vendorScripts,
-    {%- endif %}
-    parallel(rtl),
-);
-{%- endif %}
