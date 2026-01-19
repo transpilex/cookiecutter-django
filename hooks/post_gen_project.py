@@ -16,10 +16,10 @@ except NotImplementedError:
     using_sysrandom = False
 
 TERMINATOR = "\x1b[0m"
-WARNING = "\x1b[1;33m [WARNING]: "
-INFO = "\x1b[1;33m [INFO]: "
+WARNING = "\033[38;5;178m"
+INFO = "\033[38;5;39m "
 HINT = "\x1b[3;33m"
-SUCCESS = "\x1b[1;32m [SUCCESS]: "
+SUCCESS = "\033[38;5;35m"
 
 
 def remove_auth_files():
@@ -76,15 +76,12 @@ def handle_js_runner(frontend_pipeline, ui_library):
                 "sass",
                 "gulp-sass",
                 "gulp-uglify-es",
-                "node-sass-tilde-importer",
-                "gulp-rtlcss"
+                "node-sass-tilde-importer"
             ]
         else:
             scripts = {
                 "dev": "gulp",
-                "build": "gulp build",
-                "rtl": "gulp rtl",
-                "rtl-build": "gulp rtlBuild"
+                "build": "gulp build"
             }
             remove_dev_deps = [
                 "@tailwindcss/postcss",
@@ -112,7 +109,6 @@ def handle_js_runner(frontend_pipeline, ui_library):
                 "gulp-postcss",
                 "gulp-rename",
                 "gulp-replace",
-                "gulp-rtlcss",
                 "gulp-sass",
                 "gulp-uglify-es",
                 "node-sass-tilde-importer",
@@ -133,7 +129,6 @@ def handle_js_runner(frontend_pipeline, ui_library):
                 "gulp-postcss",
                 "gulp-rename",
                 "gulp-replace",
-                "gulp-rtlcss",
                 "gulp-sass",
                 "gulp-uglify-es",
                 "node-sass-tilde-importer",
