@@ -76,7 +76,11 @@ DJANGO_APPS = [
 ]
 THIRD_PARTY_APPS = [
     "crispy_forms",
-    "crispy_bootstrap5",
+{%- if cookiecutter.ui_library == 'Tailwind' %}
+     "crispy_tailwind",
+{%- else %}
+     "crispy_bootstrap5",
+{%- endif %}
     "allauth",
     "allauth.account",
     "allauth.mfa",
