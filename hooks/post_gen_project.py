@@ -223,31 +223,7 @@ def main():
     if "{{ cookiecutter.use_auth }}".lower() == "n":
         remove_auth_files()
 
-    setup_dependencies()
-
     print(SUCCESS + "Project initialized, keep up the good work!" + TERMINATOR)
-
-
-def setup_dependencies():
-    print("Installing python dependencies using uv...")
-
-    uv_cmd = ["uv"]
-
-    # Install production dependencies
-    try:
-        subprocess.run([*uv_cmd, "add", "--no-sync", "-r", "requirements/production.txt"], check=True)  # noqa: S603
-    except subprocess.CalledProcessError as e:
-        print(f"Error installing production dependencies: {e}", file=sys.stderr)
-        sys.exit(1)
-
-    # Install local (development) dependencies
-    try:
-        subprocess.run([*uv_cmd, "add", "--no-sync", "--dev", "-r", "requirements/local.txt"], check=True)  # noqa: S603
-    except subprocess.CalledProcessError as e:
-        print(f"Error installing local dependencies: {e}", file=sys.stderr)
-        sys.exit(1)
-
-    print("Setup complete!")
 
 
 if __name__ == "__main__":
